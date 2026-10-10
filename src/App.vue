@@ -1,11 +1,48 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+import FoodComponents from './components/FoodCard.vue'
+
+const foods = ref([
+	{ name: 'sushi', emoji: '🍣' },
+	{ name: 'icecream', emoji: '🍦' },
+	{ name: 'パン', emoji: '🍞' },
+	{ name: 'とんかつ', emoji: '🐖' },
+	{ name: 'そば', emoji: '🍜' },
+	{ name: '栗', emoji: '🌰' },
+])
+
+const pickedIndex = ref(0)
+const newIndex = ref(1)
+
+const pickfood = (index) => {
+	pickedIndex.value = index
+	newIndex.value++
+}
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+	<main>
+		<h1>what do you want to eat today?</h1>
+		<FoodComponents
+			:name="foods[pickedIndex].name"
+			:emoji="foods[pickedIndex].emoji"
+			@click="pickfood(pickedIndex)"
+		/>
+		<template v-if="newIndex < foods.length">
+			<p>vs</p>
+			<FoodComponents
+				:name="foods[newIndex].name"
+				:emoji="foods[newIndex].emoji"
+				@click="pickfood(newIndex)"
+			/>
+		</template>
+	</main>
 </template>
 
-<style scoped></style>
+<style scoped>
+main {
+	margin: 100px auto;
+	width: 350px;
+	text-align: center;
+}
+</style>
